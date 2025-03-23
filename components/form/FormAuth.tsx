@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { componentsInForm } from "./form.types";
-import { loginAction } from "./form.actions";
+import { loginAction, registerAction } from "./form.actions";
 
 const FormAuth = ({ type }: { type: string }) => {
     const listInfoInform = componentsInForm[type];
@@ -8,6 +8,7 @@ const FormAuth = ({ type }: { type: string }) => {
         type === "login"
             ? "or register an account?"
             : "or login with an existing account?";
+    const formAction = type === "login" ? loginAction : registerAction;
 
     return (
         <section className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -22,7 +23,7 @@ const FormAuth = ({ type }: { type: string }) => {
                         </div>
                         <div className="divide-y divide-gray-200">
                             <form
-                                action={loginAction}
+                                action={formAction}
                                 className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
                             >
                                 {listInfoInform.map((item) => (
