@@ -70,7 +70,7 @@ const TaskResponseDataDTO = z
   .object({
     id: z.string(),
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
     startDate: z.string().datetime({ offset: true }),
     dueDate: z.string().datetime({ offset: true }),
