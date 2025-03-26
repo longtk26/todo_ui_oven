@@ -4,11 +4,11 @@ import TaskEdit from "./TaskEdit";
 import cookies from "js-cookie";
 import { updateTaskApi } from "@/apis/tasks/task.api";
 import { TaskPriority, TaskStatus } from "@/apis/tasks/task.api.types";
-import { useRouter } from "next/navigation";
+import { changeDatetoDateTimeLocal, changeDatetoShowOnUI } from "@/utils";
 
 const StatusColor: { [key: string]: string } = {
     PENDING: "text-yellow-600",
-    DONE: "text-green-600",
+    COMPLETED: "text-green-600",
     IN_PROGRESS: "text-blue-600",
 };
 
@@ -28,11 +28,9 @@ const Task = ({
     priority,
 }: TaskInforType) => {
     const [showTaskEdit, setShowTaskEdit] = useState(false);
-    const router = useRouter();
 
     const submitUpdateTask = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("submitUpdateTask");
         const formData = new FormData(e.currentTarget);
         const accessToken = cookies.get("accessToken");
 
@@ -43,33 +41,39 @@ const Task = ({
         const data = {
             title: formData.get("name") as string,
             description: formData.get("description") as string,
-            status: formData.get("status")?.toString().toUpperCase() as TaskStatus,
+            status: formData
+                .get("status")
+                ?.toString()
+                .toUpperCase() as TaskStatus,
             startDate: formData.get("startDate") as string,
             dueDate: formData.get("dueDate") as string,
-            priority: formData.get("priority")?.toString().toUpperCase() as TaskPriority,
+            priority: formData
+                .get("priority")
+                ?.toString()
+                .toUpperCase() as TaskPriority,
         };
-
         await updateTaskApi(accessToken, id, data);
-        router.push("/")
         return;
     };
 
     return (
         <>
-            <div className="px-4 py-5 sm:px-6 bg-white border border-gray-200 rounded-2xl">
+            <div className="px-4 py-5 sm:px-6 bg-white border border-gray-200 rounded-2xl min-w-[300px] md:min-w-[400px] lg:min-w-[600px]"> 
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                         {name}
                     </h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        {description}
-                    </p>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                        {/* Date */}
-                        {startDate} - {dueDate}
-                    </p>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
+                <p className="mt-2 max-w-2xl text-sm text-gray-500">
+                    <span className="font-medium">Start date:</span> {changeDatetoShowOnUI(startDate)}
+                </p>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                    <span className="font-medium">Due date:</span> {changeDatetoShowOnUI(dueDate)}
+                </p>
+                <p className="mt-2 text-sm text-gray-500 italic">
+                    Description: {description}
+                </p>
+                <div className="mt-2 flex items-center justify-between">
                     <p className="text-sm font-medium text-gray-500">
                         Status:{" "}
                         <span className={`${StatusColor[status]}`}>
@@ -89,8 +93,8 @@ const Task = ({
                         >
                             Edit
                         </button>
-                        <button className="font-medium text-green-600 hover:text-green-500 cursor-pointer">
-                            Done
+                        <button className="font-medium text-red-600 hover:text-red-500 cursor-pointer">
+                            Delete
                         </button>
                     </div>
                 </div>
@@ -102,8 +106,8 @@ const Task = ({
                     name={name}
                     description={description}
                     status={status}
-                    startDate={startDate}
-                    dueDate={dueDate}
+                    startDate={changeDatetoDateTimeLocal(startDate)}
+                    dueDate={changeDatetoDateTimeLocal(dueDate)}
                     priority={priority}
                 />
             )}

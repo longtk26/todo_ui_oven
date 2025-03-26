@@ -26,3 +26,12 @@ export type UpdateTaskRequestData = {
     dueDate?: string;
     priority?: TaskPriority;
 }
+
+export type CreateTaskRequestData = {
+    title: string;
+    description?: string;
+    status?: TaskStatus;
+    startDate: string;
+    dueDate?: string;
+    priority: TaskPriority;
+}
