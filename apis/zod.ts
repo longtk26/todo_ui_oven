@@ -103,6 +103,7 @@ const UpdateTaskDTO = z
     startDate: z.string(),
     status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED"]),
   })
+  .partial()
   .passthrough();
 const EditTaskResponseDataDTO = z.object({ id: z.string() }).passthrough();
 const EditTaskResponseDTO = z

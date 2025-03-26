@@ -1,10 +1,7 @@
 import { componentsInForm } from "../form/form.types";
+import { TaskEditType } from "./task.types";
 
-const TaskEdit = ({
-    onShowTaskEdit,
-}: {
-    onShowTaskEdit: (value: boolean) => void;
-}) => {
+const TaskEdit = ({ onShowTaskEdit, onSubmited, ...taskInfos }: TaskEditType) => {
     const listInfoInform = componentsInForm["task"];
 
     return (
@@ -14,6 +11,7 @@ const TaskEdit = ({
         >
             <form
                 onClick={(e) => e.stopPropagation()}
+                onSubmit={onSubmited}
                 className="py-6 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7 bg-white rounded-2xl px-4"
             >
                 <div className="relative mt-6">
@@ -24,6 +22,7 @@ const TaskEdit = ({
                                 id={item.name}
                                 name={item.name}
                                 type={item.type}
+                                defaultValue={taskInfos[item.name]}
                                 required={item.required}
                                 className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                                 placeholder={item.placeHolder}
@@ -39,7 +38,9 @@ const TaskEdit = ({
                     {/* Options for priority */}
                     <div className="relative mt-6">
                         <select
+                            name="priority"
                             className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                            defaultValue={taskInfos.priority?.toLowerCase()}
                             required
                         >
                             <option value="low">Low</option>
@@ -57,11 +58,14 @@ const TaskEdit = ({
                     {/* Option for status */}
                     <div className="relative mt-6">
                         <select
+                            name="status"
                             className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
+                            defaultValue={taskInfos.status?.toLowerCase()}
                             required
                         >
-                            <option value="active">Active</option>
-                            <option value="done">Done</option>
+                            <option value="in_progress">IN PROGRESS</option>
+                            <option value="pending">PENDING</option>
+                            <option value="done">DONE</option>
                         </select>
                         <label
                             htmlFor="status"
