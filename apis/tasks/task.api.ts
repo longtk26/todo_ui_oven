@@ -1,7 +1,16 @@
-import { apiClient, Result } from "..";
-import { CreateTaskRequestData, DeleteTaskResponseData, TaskResponseData, UpdateTaskRequestData, UpdateTaskResponseData } from "./task.api.types";
+import { AxiosError } from "axios";
+import { apiClient, handleApiError, Result } from "..";
+import {
+    CreateTaskRequestData,
+    DeleteTaskResponseData,
+    TaskResponseData,
+    UpdateTaskRequestData,
+    UpdateTaskResponseData,
+} from "./task.api.types";
 
-export const getListTaskApi = async (accessToken: string): Promise<Result<TaskResponseData[]>> => {
+export const getListTaskApi = async (
+    accessToken: string
+): Promise<Result<TaskResponseData[]>> => {
     try {
         const response = await apiClient.get("/task", {
             headers: {
@@ -11,70 +20,63 @@ export const getListTaskApi = async (accessToken: string): Promise<Result<TaskRe
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-        };
+        return handleApiError(error as AxiosError);
     }
-}
+};
 
-export const updateTaskApi = async (accessToken: string, taskId: string, data: UpdateTaskRequestData): Promise<Result<UpdateTaskResponseData>> => {
+export const updateTaskApi = async (
+    accessToken: string,
+    taskId: string,
+    data: UpdateTaskRequestData
+): Promise<Result<UpdateTaskResponseData>> => {
     try {
         const response = await apiClient.patch("/task/:taskId", data, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
             params: {
-                taskId
-            }
+                taskId,
+            },
         });
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-        };
+        return handleApiError(error as AxiosError);
     }
-}
+};
 
-export const createTaskApi = async (accessToken: string, data: CreateTaskRequestData): Promise<Result<TaskResponseData>> => {
+export const createTaskApi = async (
+    accessToken: string,
+    data: CreateTaskRequestData
+): Promise<Result<TaskResponseData>> => {
     try {
         const response = await apiClient.post("/task", data, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-        };
+        return handleApiError(error as AxiosError);
     }
-}
+};
 
-export const deleteTaskApi = async (accessToken: string, taskId: string): Promise<Result<DeleteTaskResponseData>> => {
+export const deleteTaskApi = async (
+    accessToken: string,
+    taskId: string
+): Promise<Result<DeleteTaskResponseData>> => {
     try {
-        const response = await apiClient.delete("/task/:taskId", undefined,{
+        const response = await apiClient.delete("/task/:taskId", undefined, {
             headers: {
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${accessToken}`,
             },
             params: {
-                taskId
-            }
-        })
+                taskId,
+            },
+        });
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return  {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error"
-        }
+        return handleApiError(error as AxiosError);
     }
-}
+};

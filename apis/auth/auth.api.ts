@@ -1,10 +1,11 @@
-import { apiClient, Result } from "..";
+import { apiClient, handleApiError, Result } from "..";
 import {
     AuthRegisterApiTypes,
     AuthUserResponseData,
     VerifyEmailResponseData,
     VerifyEmailTokenResponseData,
 } from "./auth.api.types";
+import { AxiosError } from "axios";
 
 export const loginApi = async (
     email: string,
@@ -18,11 +19,7 @@ export const loginApi = async (
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-        };
+        return handleApiError(error as AxiosError);
     }
 };
 
@@ -34,13 +31,7 @@ export const registerApi = async (
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        const errorMessage =
-            error instanceof Error ? error.message : "Unknown error";
-        return {
-            success: false,
-            error: errorMessage,
-        };
+        return handleApiError(error as AxiosError);
     }
 };
 
@@ -56,13 +47,7 @@ export const verifyEmail = async (
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        const errorMessage =
-            error instanceof Error ? error.message : "Unknown error";
-        return {
-            success: false,
-            error: errorMessage,
-        };
+        return handleApiError(error as AxiosError);
     }
 };
 
@@ -84,12 +69,6 @@ export const verifyTokenEmail = async (
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        const errorMessage =
-            error instanceof Error ? error.message : "Unknown error";
-        return {
-            success: false,
-            error: errorMessage,
-        };
+        return handleApiError(error as AxiosError);
     }
 };

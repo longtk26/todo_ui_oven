@@ -9,6 +9,7 @@ import {
     changeDatetoShowOnUI,
     getUpdateData,
 } from "@/utils";
+import { toast } from "react-toastify";
 
 const StatusColor: { [key: string]: string } = {
     PENDING: "text-yellow-600",
@@ -66,9 +67,12 @@ const Task = ({
             priority,
         };
         const updateData = getUpdateData(newData, oldData);
-        console.log(`update data:::::::`, updateData)
 
-        await updateTaskApi(accessToken, id, updateData);
+        const data = await updateTaskApi(accessToken, id, updateData);
+        if (!data.success) {
+            toast.error(data.error);
+            return;
+        }
         onFetchTasks();
         setShowTaskEdit(false);
         return;
@@ -84,6 +88,7 @@ const Task = ({
         const result = await deleteTaskApi(accessToken, id);
 
         if (!result.success) {
+            toast.error(result.error);
             return;
         }
         onFetchTasks();

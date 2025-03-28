@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Header from "@/containers/header/Header";
 import { UserProvider } from "@/hooks/useUser";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
     title: "Todo App",
@@ -19,6 +20,7 @@ export default function RootLayout({
                 <UserProvider>
                     <Header />
                     {children}
+                    <ToastContainer />
                 </UserProvider>
             </body>
         </html>

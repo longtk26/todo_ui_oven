@@ -2,6 +2,7 @@
 import { verifyEmail } from "@/apis/auth/auth.api";
 import { useUser } from "@/hooks/useUser";
 import cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Profile = () => {
     const { user } = useUser();
@@ -18,7 +19,7 @@ const Profile = () => {
             return;
         }
 
-        alert(`Email sent to ${data.data?.email}`);
+        toast.success(`Email sent to ${data.data?.email}`);
     };
     return (
         <section className="flex gap-x-4 items-center">

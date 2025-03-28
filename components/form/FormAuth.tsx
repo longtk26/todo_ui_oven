@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { componentsInForm } from "./form.types";
 import { loginAction, registerAction } from "./form.actions";
+import { componentsInForm } from "./form.data";
 
 const FormAuth = ({ type }: { type: string }) => {
     const listInfoInform = componentsInForm[type];

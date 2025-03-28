@@ -1,4 +1,4 @@
-import { componentsInForm } from "../form/form.types";
+import { componentsInForm } from "../form/form.data";
 import { TaskEditType } from "./task.types";
 
 const TaskEdit = ({
