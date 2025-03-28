@@ -8,6 +8,7 @@ export type TaskInforType = {
     startDate: string;
     dueDate?: string;
     priority: string;
+    onFetchTasks: () => void;
 };
 
 export type TaskEditType = {

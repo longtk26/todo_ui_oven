@@ -15,6 +15,10 @@ export type UpdateTaskResponseData = {
     id: string;
 }
 
+export type DeleteTaskResponseData = {
+    id: string;
+}
+
 export type TaskStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED";
 export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
 

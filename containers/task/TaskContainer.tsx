@@ -15,19 +15,19 @@ const TaskContainer = () => {
     const [showTaskEdit, setShowTaskEdit] = useState(false);
     const [tasks, setTasks] = useState<TaskResponseData[]>([]);
 
-    useEffect(() => {
-        // fetch tasks
-        const fetchTasks = async () => {
-            const accessToken = cookies.get("accessToken");
-            if (!accessToken) {
-                return;
-            }
-            const result = await getListTaskApi(accessToken);
-            if (result.success) {
-                setTasks(result.data);
-            }
-        };
+    // fetch tasks
+    const fetchTasks = async () => {
+        const accessToken = cookies.get("accessToken");
+        if (!accessToken) {
+            return;
+        }
+        const result = await getListTaskApi(accessToken);
+        if (result.success) {
+            setTasks(result.data);
+        }
+    };
 
+    useEffect(() => {
         fetchTasks();
     }, []);
 
@@ -55,7 +55,9 @@ const TaskContainer = () => {
         };
 
         // call api to create task
-        const result = await createTaskApi(accessToken, data);
+        await createTaskApi(accessToken, data);
+        await fetchTasks();
+        setShowTaskEdit(false);
     };
 
     return (
@@ -83,6 +85,7 @@ const TaskContainer = () => {
                             startDate={task.startDate}
                             dueDate={task.dueDate}
                             priority={task.priority}
+                            onFetchTasks={fetchTasks}
                         />
                     ))}
                 </div>
