@@ -10,6 +10,7 @@ import Task from "@/components/task/Task";
 import TaskEdit from "@/components/task/TaskEdit";
 import { FormEvent, useEffect, useState } from "react";
 import cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const TaskContainer = () => {
     const [showTaskEdit, setShowTaskEdit] = useState(false);
@@ -55,7 +56,14 @@ const TaskContainer = () => {
         };
 
         // call api to create task
-        await createTaskApi(accessToken, data);
+        const result = await createTaskApi(accessToken, data);
+        if (!result.success) {
+            toast.error(result.error)
+            return
+        }
+
+        toast.success(`Created task successfully!`)
+
         await fetchTasks();
         setShowTaskEdit(false);
     };

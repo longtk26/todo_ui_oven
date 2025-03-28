@@ -1,5 +1,6 @@
-import { apiClient, Result } from "..";
+import { apiClient, handleApiError, Result } from "..";
 import { UserProfileResponseData } from "./user.api.types";
+import { AxiosError } from "axios";
 
 export const getUserProfileApi = async (
     accessToken: string
@@ -13,10 +14,6 @@ export const getUserProfileApi = async (
 
         return { success: true, data: response.data };
     } catch (error) {
-        console.error(error);
-        return {
-            success: false,
-            error: error instanceof Error ? error.message : "Unknown error",
-        };
+        return handleApiError(error as AxiosError);
     }
 };
