@@ -1,8 +1,25 @@
 "use client";
+import { verifyEmail } from "@/apis/auth/auth.api";
 import { useUser } from "@/hooks/useUser";
+import cookies from "js-cookie";
 
 const Profile = () => {
     const { user } = useUser();
+    const sendVerifyEmail = async () => {
+        const accessToken = cookies.get("accessToken");
+
+        if (!accessToken) {
+            return;
+        }
+
+        const data = await verifyEmail(accessToken);
+
+        if (!data.success) {
+            return;
+        }
+
+        alert(`Email sent to ${data.data?.email}`);
+    };
     return (
         <section className="flex gap-x-4 items-center">
             <p className="font-bold">Hi! {user?.name}</p>
@@ -13,13 +30,14 @@ const Profile = () => {
             >
                 {user?.isVerified ? "Verified" : "Not verified"}
             </p>
-            {
-              !user?.isVerified && (
-                <button className="bg-cyan-500 text-white px-4 py-2 rounded-md">
+            {!user?.isVerified && (
+                <button
+                    onClick={sendVerifyEmail}
+                    className="bg-cyan-500 text-white px-4 py-2 rounded-md cursor-pointer"
+                >
                     Verify now
                 </button>
-              )
-            }
+            )}
         </section>
     );
 };

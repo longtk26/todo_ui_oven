@@ -10,3 +10,14 @@ export type AuthUserResponseData = {
     accessToken: string;
     refreshToken: string;
 }
+
+export type VerifyEmailResponseData = {
+    id: string;
+    email: string
+}
+
+export type VerifyEmailTokenResponseData = {
+    id: string;
+    email: string;
+    isVerified: boolean
+}
