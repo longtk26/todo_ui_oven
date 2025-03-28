@@ -1,8 +1,15 @@
 import { componentsInForm } from "../form/form.types";
 import { TaskEditType } from "./task.types";
 
-const TaskEdit = ({ onShowTaskEdit, onSubmited, ...taskInfos }: TaskEditType) => {
+const TaskEdit = ({
+    onShowTaskEdit,
+    onSubmited,
+    ...taskInfos
+}: TaskEditType) => {
     const listInfoInform = componentsInForm["task"];
+    const taskInfoReduce: { [key: string]: string } = Object.entries(
+        taskInfos
+    ).reduce((acc, [key, value]) => ({ ...acc, [key]: value || "" }), {});
 
     return (
         <div
@@ -22,7 +29,7 @@ const TaskEdit = ({ onShowTaskEdit, onSubmited, ...taskInfos }: TaskEditType) =>
                                 id={item.name}
                                 name={item.name}
                                 type={item.type}
-                                defaultValue={taskInfos[item.name]}
+                                defaultValue={taskInfoReduce[item.name]}
                                 required={item.required}
                                 className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
                                 placeholder={item.placeHolder}
@@ -65,7 +72,7 @@ const TaskEdit = ({ onShowTaskEdit, onSubmited, ...taskInfos }: TaskEditType) =>
                         >
                             <option value="in_progress">IN PROGRESS</option>
                             <option value="pending">PENDING</option>
-                            <option value="done">DONE</option>
+                            <option value="completed">COMPLETED</option>
                         </select>
                         <label
                             htmlFor="status"
