@@ -1,9 +1,9 @@
+"use server";
 import { loginApi, registerApi } from "@/apis/auth/auth.api";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const loginAction = async (formData: FormData) => {
-    "use server";
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
 
@@ -29,7 +29,6 @@ export const loginAction = async (formData: FormData) => {
 };
 
 export const registerAction = async (formData: FormData) => {
-    "use server";
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
     const name = formData.get("name")?.toString();
