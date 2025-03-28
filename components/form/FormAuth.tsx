@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import { loginAction, registerAction } from "./form.actions";
 import { componentsInForm } from "./form.data";
+import { toast } from "react-toastify";
 
 const FormAuth = ({ type }: { type: string }) => {
     const listInfoInform = componentsInForm[type];
@@ -9,6 +11,15 @@ const FormAuth = ({ type }: { type: string }) => {
             ? "or register an account?"
             : "or login with an existing account?";
     const formAction = type === "login" ? loginAction : registerAction;
+    const handleForm = async (formData: FormData) => {
+        try {
+            await formAction(formData)
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message)
+            }
+        }
+    }
 
     return (
         <section className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -23,7 +34,7 @@ const FormAuth = ({ type }: { type: string }) => {
                         </div>
                         <div className="divide-y divide-gray-200">
                             <form
-                                action={formAction}
+                                action={handleForm}
                                 className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
                             >
                                 {listInfoInform.map((item) => (
