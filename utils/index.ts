@@ -1,3 +1,5 @@
+import _, { NumericDictionary } from "lodash";
+
 const changeDatetoDateTimeLocal = (date?: string) => {
     if (!date) {
         return "";
@@ -25,4 +27,20 @@ const changeDateToSevenHoursAhead = (date?: string) => {
     return new Date(localTime).toISOString();
 };
 
-export { changeDatetoDateTimeLocal, changeDatetoShowOnUI };
+const getUpdateData = <T extends Record<string, string | undefined>>(
+    newData: T,
+    oldData: T
+): NumericDictionary<T[string] | undefined> => {
+    const result: Partial<T> = {};
+    for (const key in newData) {
+        if (newData[key] === oldData[key]) {
+            continue;
+        }
+
+        result[key] = newData[key];
+    }
+
+    return _.omitBy(result, _.isNil);
+};
+
+export { changeDatetoDateTimeLocal, changeDatetoShowOnUI, getUpdateData };

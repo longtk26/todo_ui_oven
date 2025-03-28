@@ -1,5 +1,5 @@
 import { apiClient, Result } from "..";
-import { CreateTaskRequestData, TaskResponseData, UpdateTaskRequestData, UpdateTaskResponseData } from "./task.api.types";
+import { CreateTaskRequestData, DeleteTaskResponseData, TaskResponseData, UpdateTaskRequestData, UpdateTaskResponseData } from "./task.api.types";
 
 export const getListTaskApi = async (accessToken: string): Promise<Result<TaskResponseData[]>> => {
     try {
@@ -55,5 +55,26 @@ export const createTaskApi = async (accessToken: string, data: CreateTaskRequest
             success: false,
             error: error instanceof Error ? error.message : "Unknown error",
         };
+    }
+}
+
+export const deleteTaskApi = async (accessToken: string, taskId: string): Promise<Result<DeleteTaskResponseData>> => {
+    try {
+        const response = await apiClient.delete("/task/:taskId", undefined,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            params: {
+                taskId
+            }
+        })
+
+        return { success: true, data: response.data };
+    } catch (error) {
+        console.error(error);
+        return  {
+            success: false,
+            error: error instanceof Error ? error.message : "Unknown error"
+        }
     }
 }

@@ -2,9 +2,13 @@ import { FormEvent, useState } from "react";
 import { TaskInforType } from "./task.types";
 import TaskEdit from "./TaskEdit";
 import cookies from "js-cookie";
-import { updateTaskApi } from "@/apis/tasks/task.api";
+import { deleteTaskApi, updateTaskApi } from "@/apis/tasks/task.api";
 import { TaskPriority, TaskStatus } from "@/apis/tasks/task.api.types";
-import { changeDatetoDateTimeLocal, changeDatetoShowOnUI } from "@/utils";
+import {
+    changeDatetoDateTimeLocal,
+    changeDatetoShowOnUI,
+    getUpdateData,
+} from "@/utils";
 
 const StatusColor: { [key: string]: string } = {
     PENDING: "text-yellow-600",
@@ -26,6 +30,7 @@ const Task = ({
     startDate,
     dueDate,
     priority,
+    onFetchTasks,
 }: TaskInforType) => {
     const [showTaskEdit, setShowTaskEdit] = useState(false);
 
@@ -38,7 +43,7 @@ const Task = ({
             return;
         }
 
-        const data = {
+        const newData = {
             title: formData.get("name") as string,
             description: formData.get("description") as string,
             status: formData
@@ -52,23 +57,53 @@ const Task = ({
                 ?.toString()
                 .toUpperCase() as TaskPriority,
         };
-        await updateTaskApi(accessToken, id, data);
+        const oldData = {
+            title: name,
+            description,
+            status,
+            startDate: changeDatetoDateTimeLocal(startDate),
+            dueDate: changeDatetoDateTimeLocal(dueDate),
+            priority,
+        };
+        const updateData = getUpdateData(newData, oldData);
+        console.log(`update data:::::::`, updateData)
+
+        await updateTaskApi(accessToken, id, updateData);
+        onFetchTasks();
+        setShowTaskEdit(false);
         return;
+    };
+
+    const deleteTask = async () => {
+        const accessToken = cookies.get("accessToken");
+
+        if (!accessToken) {
+            return;
+        }
+
+        const result = await deleteTaskApi(accessToken, id);
+
+        if (!result.success) {
+            return;
+        }
+        onFetchTasks();
     };
 
     return (
         <>
-            <div className="px-4 py-5 sm:px-6 bg-white border border-gray-200 rounded-2xl min-w-[300px] md:min-w-[400px] lg:min-w-[600px]"> 
+            <div className="px-4 py-5 sm:px-6 bg-white border border-gray-200 rounded-2xl min-w-[300px] md:min-w-[400px] lg:min-w-[600px]">
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                         {name}
                     </h3>
                 </div>
                 <p className="mt-2 max-w-2xl text-sm text-gray-500">
-                    <span className="font-medium">Start date:</span> {changeDatetoShowOnUI(startDate)}
+                    <span className="font-medium">Start date:</span>{" "}
+                    {changeDatetoShowOnUI(startDate)}
                 </p>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                    <span className="font-medium">Due date:</span> {changeDatetoShowOnUI(dueDate)}
+                    <span className="font-medium">Due date:</span>{" "}
+                    {changeDatetoShowOnUI(dueDate)}
                 </p>
                 <p className="mt-2 text-sm text-gray-500 italic">
                     Description: {description}
@@ -93,7 +128,10 @@ const Task = ({
                         >
                             Edit
                         </button>
-                        <button className="font-medium text-red-600 hover:text-red-500 cursor-pointer">
+                        <button
+                            onClick={deleteTask}
+                            className="font-medium text-red-600 hover:text-red-500 cursor-pointer"
+                        >
                             Delete
                         </button>
                     </div>
