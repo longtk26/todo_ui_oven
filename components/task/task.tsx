@@ -10,18 +10,8 @@ import {
     getUpdateData,
 } from "@/utils";
 import { toast } from "react-toastify";
+import { PriorityColor, StatusColor } from "./task.data";
 
-const StatusColor: { [key: string]: string } = {
-    PENDING: "text-yellow-600",
-    COMPLETED: "text-green-600",
-    IN_PROGRESS: "text-blue-600",
-};
-
-const PriorityColor: { [key: string]: string } = {
-    LOW: "text-blue-600",
-    MEDIUM: "text-yellow-600",
-    HIGH: "text-red-600",
-};
 
 const Task = ({
     id,
@@ -39,7 +29,6 @@ const Task = ({
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const accessToken = cookies.get("accessToken");
-
         if (!accessToken) {
             return;
         }
@@ -66,8 +55,8 @@ const Task = ({
             dueDate: changeDatetoDateTimeLocal(dueDate),
             priority,
         };
-        const updateData = getUpdateData(newData, oldData);
 
+        const updateData = getUpdateData(newData, oldData);
         const data = await updateTaskApi(accessToken, id, updateData);
         if (!data.success) {
             toast.error(data.error);
@@ -80,13 +69,11 @@ const Task = ({
 
     const deleteTask = async () => {
         const accessToken = cookies.get("accessToken");
-
         if (!accessToken) {
             return;
         }
 
         const result = await deleteTaskApi(accessToken, id);
-
         if (!result.success) {
             toast.error(result.error);
             return;

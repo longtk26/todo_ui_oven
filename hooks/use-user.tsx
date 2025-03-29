@@ -25,7 +25,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         async function fetchUser() {
             const accessToken = cookies.get("accessToken");
-            console.log(`accessToken`, accessToken);
             if (!accessToken) {
                 router.push("/login");
                 return;
@@ -50,7 +49,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-// Hook để sử dụng context
 export function useUser() {
     const context = useContext(UserContext);
     if (!context) {
