@@ -21,3 +21,8 @@ export type TaskEditType = {
     dueDate?: string;
     priority?: string;
 };
+
+export type TaskOptionType = {
+    value: string;
+    name: string;
+}
