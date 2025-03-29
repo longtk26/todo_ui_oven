@@ -7,4 +7,6 @@ export type FormComponent = {
     required?: boolean;
 };
 
+export type FormType = 'login' | 'register'
+
 

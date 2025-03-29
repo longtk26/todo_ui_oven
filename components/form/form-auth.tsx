@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { loginAction, registerAction } from "./form.actions";
 import { componentsInForm } from "./form.data";
-import { toast } from "react-toastify";
+import { FormType } from "./form.types";
+import { useState } from "react";
 
-const FormAuth = ({ type }: { type: string }) => {
+const FormAuth = ({ type }: { type: FormType }) => {
+    const [invalidMessage, setInvalidMessage] = useState("");
     const listInfoInform = componentsInForm[type];
     const messgeRedirect =
         type === "login"
@@ -13,13 +15,11 @@ const FormAuth = ({ type }: { type: string }) => {
     const formAction = type === "login" ? loginAction : registerAction;
     const handleForm = async (formData: FormData) => {
         try {
-            await formAction(formData)
+            await formAction(formData);
         } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message)
-            }
+            setInvalidMessage(error instanceof Error ? error.message : "");
         }
-    }
+    };
 
     return (
         <section className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -38,7 +38,10 @@ const FormAuth = ({ type }: { type: string }) => {
                                 className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7"
                             >
                                 {listInfoInform.map((item) => (
-                                    <div className="relative mt-2" key={item.name}>
+                                    <div
+                                        className="relative mt-2"
+                                        key={item.name}
+                                    >
                                         <input
                                             autoComplete={item.autoComplete}
                                             id={item.name}
@@ -77,6 +80,9 @@ const FormAuth = ({ type }: { type: string }) => {
                                     </Link>
                                 </div>
                             </form>
+                            <p className="text-center text-red-500 mt-4 max-w-52 lowercase">
+                                {invalidMessage}
+                            </p>
                         </div>
                     </div>
                 </div>
