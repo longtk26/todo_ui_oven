@@ -46,6 +46,11 @@ npm i
 npm run dev
 ```
 - Now your application will run at http://localhost:3000
+
+- To run application inside a Docker container
+```sh
+    docker compose up -d --build
+```
 ---
 
 Enjoy managing your tasks with **TODO APP**! ✅
