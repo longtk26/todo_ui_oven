@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import Header from "@/containers/header/Header";
-import { UserProvider } from "@/hooks/useUser";
+import Header from "@/containers/header/header";
+import { UserProvider } from "@/hooks/use-user";
 import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {

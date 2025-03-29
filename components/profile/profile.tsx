@@ -1,6 +1,6 @@
 "use client";
 import { verifyEmail } from "@/apis/auth/auth.api";
-import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/use-user";
 import cookies from "js-cookie";
 import { toast } from "react-toastify";
 

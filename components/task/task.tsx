@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { TaskInforType } from "./task.types";
-import TaskEdit from "./TaskEdit";
+import TaskEdit from "./task-edit";
 import cookies from "js-cookie";
 import { deleteTaskApi, updateTaskApi } from "@/apis/tasks/task.api";
 import { TaskPriority, TaskStatus } from "@/apis/tasks/task.api.types";
