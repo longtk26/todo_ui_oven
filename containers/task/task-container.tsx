@@ -6,8 +6,8 @@ import {
     TaskResponseData,
     TaskStatus,
 } from "@/apis/tasks/task.api.types";
-import Task from "@/components/task/Task";
-import TaskEdit from "@/components/task/TaskEdit";
+import Task from "@/components/task/task";
+import TaskEdit from "@/components/task/task-edit";
 import { FormEvent, useEffect, useState } from "react";
 import cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -58,11 +58,11 @@ const TaskContainer = () => {
         // call api to create task
         const result = await createTaskApi(accessToken, data);
         if (!result.success) {
-            toast.error(result.error)
-            return
+            toast.error(result.error);
+            return;
         }
 
-        toast.success(`Created task successfully!`)
+        toast.success(`Created task successfully!`);
 
         await fetchTasks();
         setShowTaskEdit(false);

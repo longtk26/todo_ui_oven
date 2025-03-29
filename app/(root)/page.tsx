@@ -1,4 +1,4 @@
-import TaskContainer from "@/containers/task/TaskContainer";
+import TaskContainer from "@/containers/task/task-container";
 
 export default async function Home() {
     return (
