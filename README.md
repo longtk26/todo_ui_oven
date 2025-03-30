@@ -51,7 +51,12 @@ npm i
 
 -   Fill in the necessary information based on `.ex.env`.
 
-### 6️⃣ Run the Application
+### 6️⃣ Gen zod open api
+```sh
+npm run open-api
+```
+
+### 7️⃣ Run the Application
 
 ```sh
 npm run dev
