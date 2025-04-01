@@ -18,7 +18,6 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={`antialiased bg-black/10 w-full h-screen`}>
                 <UserProvider>
-                    <Header />
                     {children}
                     <ToastContainer />
                 </UserProvider>
