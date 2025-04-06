@@ -24,13 +24,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         async function fetchUser() {
-            const accessToken = cookies.get("accessToken");
-            if (!accessToken) {
-                router.push("/login");
-                return;
-            }
-
-            const data = await getUserProfileApi(accessToken);
+            const data = await getUserProfileApi();
             if (!data.success) {
                 router.push("/login");
                 return;

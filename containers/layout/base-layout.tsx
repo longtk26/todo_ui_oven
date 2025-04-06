@@ -1,49 +1,26 @@
 "use client";
 import React, { useState } from "react";
-import {
-    IconArrowLeft,
-    IconBrandTabler,
-    IconSettings,
-    IconUserBolt,
-} from "@tabler/icons-react";
+
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { LogoIcon } from "@/components/logo/logo-icon";
 import { LogoApp } from "@/components/logo/logo-app";
+import { useUser } from "@/hooks/use-user";
+import Loading from "@/components/loading/Loading";
+import { links } from "./navigation-list";
 
-export function BaseLayout({children}: {children: React.ReactNode}) {
-    const links = [
-        {
-            label: "Dashboard",
-            href: "#",
-            icon: (
-                <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-            ),
-        },
-        {
-            label: "Profile",
-            href: "#",
-            icon: (
-                <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-            ),
-        },
-        {
-            label: "Settings",
-            href: "#",
-            icon: (
-                <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-            ),
-        },
-        {
-            label: "Logout",
-            href: "#",
-            icon: (
-                <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-            ),
-        },
-    ];
-    const [open, setOpen] = useState(false);
+export function BaseLayout({ children }: { children: React.ReactNode }) {
+    const open = true;
+    const { user } = useUser();
+
+    if (!user) {
+        return (
+            <div className="flex h-screen w-full items-center justify-center">
+                <Loading />
+            </div>
+        );
+    }
     return (
         <div
             className={cn(
@@ -51,7 +28,7 @@ export function BaseLayout({children}: {children: React.ReactNode}) {
                 "h-screen"
             )}
         >
-            <Sidebar open={open} setOpen={setOpen}>
+            <Sidebar open={open}>
                 <SidebarBody className="justify-between gap-10">
                     <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
                         {open ? <LogoApp /> : <LogoIcon />}
@@ -64,7 +41,7 @@ export function BaseLayout({children}: {children: React.ReactNode}) {
                     <div>
                         <SidebarLink
                             link={{
-                                label: "Manu Arora",
+                                label: user.email,
                                 href: "#",
                                 icon: (
                                     <Image
@@ -84,6 +61,3 @@ export function BaseLayout({children}: {children: React.ReactNode}) {
         </div>
     );
 }
-
-
-

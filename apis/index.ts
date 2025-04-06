@@ -1,8 +1,27 @@
 import { config } from "@/configs/config";
 import { createApiClient } from "./zod";
 import axios, { AxiosError } from "axios";
+import cookies from "js-cookie";
 
-export const apiClient = createApiClient(config.serverUrl);
+const getApiClient = async () => {
+    const token = cookies.get("accessToken");
+    if (!token) {
+        return;
+    }
+
+    const axiosInstance = axios.create({
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+    console.log("axiosInstance", axiosInstance);
+
+    return createApiClient(config.serverUrl, { axiosInstance });
+};
+
+export const apiClient =
+    (await getApiClient()) || createApiClient(config.serverUrl);
 
 export type Result<T> =
     | { success: true; data: T }

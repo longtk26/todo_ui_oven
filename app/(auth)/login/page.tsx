@@ -1,7 +1,7 @@
-import FormAuth from "@/components/form/form-auth";
+import { FormSignIn } from "@/components/form/form-signin";
 
 const LoginPage = () => {
-    return <FormAuth type="login" />;
+    return <FormSignIn />;
 };
 
 export default LoginPage;

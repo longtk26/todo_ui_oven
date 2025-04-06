@@ -12,6 +12,9 @@ export const loginApi = async (
     password: string
 ): Promise<Result<AuthUserResponseData>> => {
     try {
+        console.log(
+            `calling loginApi with email: ${email} and password: ${password}`
+        );
         const response = await apiClient.post("/user/sign-in", {
             email,
             password,
