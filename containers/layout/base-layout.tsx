@@ -11,7 +11,7 @@ import Loading from "@/components/loading/Loading";
 import { links } from "./navigation-list";
 
 export function BaseLayout({ children }: { children: React.ReactNode }) {
-    const open = true;
+    const [open, setOpen] = useState(false);
     const { user } = useUser();
 
     if (!user) {
@@ -28,7 +28,7 @@ export function BaseLayout({ children }: { children: React.ReactNode }) {
                 "h-screen"
             )}
         >
-            <Sidebar open={open}>
+            <Sidebar open={open} setOpen={setOpen}>
                 <SidebarBody className="justify-between gap-10">
                     <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
                         {open ? <LogoApp /> : <LogoIcon />}

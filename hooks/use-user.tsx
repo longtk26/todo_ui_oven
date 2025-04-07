@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getUserProfileApi } from "@/apis/user/user.api";
 import { useRouter } from "next/navigation";
-import cookies from "js-cookie";
 
 interface User {
     id: string;

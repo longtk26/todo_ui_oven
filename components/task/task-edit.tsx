@@ -1,74 +1,89 @@
-import { componentsInForm } from "../form/form.data";
+import { PlusIcon } from "lucide-react";
+import DateTimePicker from "../datetime/datetime-picker";
+import { Button } from "../ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 import TaskOption from "./task-option";
 import { optionForPriority, optionForStatus } from "./task.data";
-import { TaskEditType } from "./task.types";
 
 const TaskEdit = ({
-    onShowTaskEdit,
-    onSubmited,
-    ...taskInfos
-}: TaskEditType) => {
-    const listInfoInform = componentsInForm["task"];
-    const taskInfoReduce: { [key: string]: string } = Object.entries(
-        taskInfos
-    ).reduce((acc, [key, value]) => ({ ...acc, [key]: value || "" }), {});
-
+    taskName,
+    onSetTaskName,
+    startDate,
+    onSetStartDate,
+    endDate,
+    onSetEndDate,
+    description,
+    onSetDescription,
+    status,
+    onSetStatus,
+    priority,
+    onSetPriority,
+}: {
+    taskName?: string;
+    onSetTaskName: (name: string) => void;
+    startDate?: Date | undefined;
+    onSetStartDate: (date: Date | undefined) => void;
+    endDate?: Date | undefined;
+    onSetEndDate: (date: Date | undefined) => void;
+    description?: string;
+    onSetDescription: (description: string) => void;
+    status: string;
+    onSetStatus: (status: string) => void;
+    priority: string;
+    onSetPriority: (priority: string) => void;
+}) => {
     return (
-        <div
-            onClick={() => onShowTaskEdit(false)}
-            className="fixed inset-0 z-10 overflow-y-auto bg-black/30 bg-opacity-10 flex justify-center items-center"
-        >
-            <form
-                onClick={(e) => e.stopPropagation()}
-                onSubmit={onSubmited}
-                className="py-6 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7 bg-white rounded-2xl px-4"
-            >
-                <div className="relative mt-6">
-                    {listInfoInform.map((item) => (
-                        <div className="relative mt-6" key={item.name}>
-                            <input
-                                autoComplete={item.autoComplete}
-                                id={item.name}
-                                name={item.name}
-                                type={item.type}
-                                defaultValue={taskInfoReduce[item.name]}
-                                required={item.required}
-                                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:borer-rose-600"
-                                placeholder={item.placeHolder}
-                            />
-                            <label
-                                htmlFor={item.name}
-                                className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
-                            >
-                                {item.label}
-                            </label>
-                        </div>
-                    ))}
-                    {/* Options for priority */}
-                    <TaskOption 
-                        type="priority"
-                        defaultValue={taskInfos?.priority?.toString() || ''}
-                        listOptions={optionForPriority}
-                        label="priority"
-                    />
-
-                    {/* Option for status */}
-                    <TaskOption 
-                        type="status"
-                        defaultValue={taskInfos?.status?.toString() || ''}
-                        listOptions={optionForStatus}
-                        label="status"
-                    />
-                </div>
-                <div className="relative">
-                    <button
-                        className="bg-cyan-500 text-white rounded-md px-2 py-1 cursor-pointer"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </form>
+        <div className="grid gap-4 py-2">
+            <div className="grid gap-2">
+                <Label>Task Name</Label>
+                <Input
+                    value={taskName}
+                    onChange={(e) => onSetTaskName(e.target.value)}
+                />
+            </div>
+            <div className="grid gap-2">
+                <DateTimePicker
+                    label="Start Date"
+                    date={startDate}
+                    setDate={onSetStartDate}
+                />
+            </div>
+            <div className="grid gap-2">
+                <DateTimePicker
+                    label="End Date"
+                    date={endDate}
+                    setDate={onSetEndDate}
+                />
+            </div>
+            <div className="grid gap-2">
+                <Label>Description</Label>
+                <Textarea
+                    value={description}
+                    onChange={(e) => onSetDescription(e.target.value)}
+                />
+            </div>
+            <TaskOption
+                value={status}
+                label="Status"
+                listOptions={optionForStatus}
+                onChange={onSetStatus}
+            />
+            <TaskOption
+                value={priority}
+                label="Priority"
+                listOptions={optionForPriority}
+                onChange={onSetPriority}
+            />
         </div>
     );
 };

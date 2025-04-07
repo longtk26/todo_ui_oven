@@ -2,13 +2,12 @@ import { FormEvent } from "react";
 
 export type TaskInforType = {
     id: string;
-    name: string;
+    title: string;
     description?: string;
     status: string;
     startDate: string;
     dueDate?: string;
     priority: string;
-    onFetchTasks: () => void;
 };
 
 export type TaskEditType = {
@@ -23,6 +22,17 @@ export type TaskEditType = {
 };
 
 export type TaskOptionType = {
+    label: string;
     value: string;
-    name: string;
-}
+    listOptions?: {
+        value: string;
+        name: string;
+    }[];
+    onChange: (value: string) => void;
+};
+
+export type TaskDetialType = {
+    detailOpen: boolean;
+    setDetailOpen: (open: boolean) => void;
+    selectedTask: TaskInforType | null;
+};

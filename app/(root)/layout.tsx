@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import Header from "@/containers/header/header";
 import { UserProvider } from "@/hooks/use-user";
 import { ToastContainer } from "react-toastify";
+import { BaseLayout } from "@/containers/layout/base-layout";
+import { QueryProvider } from "@/providers/query-provider";
 
 export const metadata: Metadata = {
     title: "Todo App",
@@ -17,10 +18,12 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`antialiased bg-black/10 w-full h-screen`}>
-                <UserProvider>
-                    {children}
-                    <ToastContainer />
-                </UserProvider>
+                <QueryProvider>
+                    <UserProvider>
+                        <BaseLayout>{children}</BaseLayout>
+                        <ToastContainer />
+                    </UserProvider>
+                </QueryProvider>
             </body>
         </html>
     );
