@@ -64,6 +64,7 @@ const TaskRow = ({
                         </button>
                     }
                     action="edit"
+                    taskId={task.id}
                     defaultStatus={task.status as TaskStatus}
                     defaultPriority={task.priority as TaskPriority}
                     defaultTaskName={task.title}

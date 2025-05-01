@@ -14,6 +14,7 @@ import {
     CreateTaskRequestData,
     ResultTaskCreate,
     ResultTaskDelete,
+    ResultTaskUpdate,
     TaskPriority,
     TaskStatus,
     UpdateTaskRequestData,
@@ -61,7 +62,7 @@ const TaskAction = ({
     >(createTaskApi);
     const updateMutate = useTaskMutation<
         UpdateTaskRequestData,
-        ResultTaskDelete
+        ResultTaskUpdate
     >(updateTaskApi);
 
     const onAddTask = () => {
@@ -93,7 +94,6 @@ const TaskAction = ({
             status: (status.toUpperCase() as TaskStatus) || "PENDING",
             priority: (priority.toUpperCase() as TaskPriority) || "LOW",
         };
-        console.log(`data`, data);
         updateMutate.mutate(data);
         setOpen(false);
     };
@@ -110,17 +110,17 @@ const TaskAction = ({
                     </DialogTitle>
                 </DialogHeader>
                 <TaskEdit
-                    taskName={defaultTaskName}
+                    taskName={taskName || defaultTaskName}
                     onSetTaskName={setTaskName}
-                    startDate={defaultStartDate}
+                    startDate={startDate || defaultStartDate}
                     onSetStartDate={setStartDate}
-                    endDate={defaultEndDate}
+                    endDate={endDate || defaultEndDate}
                     onSetEndDate={setEndDate}
-                    description={defaultDescription}
+                    description={description || defaultDescription}
                     onSetDescription={setDescription}
-                    status={_.toLower(defaultStatus)}
+                    status={_.toLower(status) || _.toLower(defaultStatus)}
                     onSetStatus={setStatus}
-                    priority={_.toLower(defaultPriority)}
+                    priority={_.toLower(priority) || _.toLower(defaultPriority)}
                     onSetPriority={setPriority}
                 />
                 <DialogFooter>
