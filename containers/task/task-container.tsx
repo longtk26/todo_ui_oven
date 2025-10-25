@@ -6,7 +6,7 @@ import {
     TaskResponseData,
     TaskStatus,
 } from "@/apis/tasks/task.api.types";
-import Task from "@/components/task/task";
+import Task from "@/components/task/task-detail";
 import TaskEdit from "@/components/task/task-edit";
 import { FormEvent, useEffect, useState } from "react";
 import cookies from "js-cookie";

@@ -7,6 +7,13 @@ export type FormComponent = {
     required?: boolean;
 };
 
-export type FormType = 'login' | 'register'
+export type FormType = "login" | "register";
 
+export type IFormSignInInput = {
+    email: string;
+    password: string;
+};
 
+export type IFormSignUpInput = IFormSignInInput & {
+    name: string;
+};

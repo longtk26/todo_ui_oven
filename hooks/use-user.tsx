@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getUserProfileApi } from "@/apis/user/user.api";
 import { useRouter } from "next/navigation";
-import cookies from "js-cookie";
 
 interface User {
     id: string;
@@ -24,13 +23,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         async function fetchUser() {
-            const accessToken = cookies.get("accessToken");
-            if (!accessToken) {
-                router.push("/login");
-                return;
-            }
-
-            const data = await getUserProfileApi(accessToken);
+            const data = await getUserProfileApi();
             if (!data.success) {
                 router.push("/login");
                 return;

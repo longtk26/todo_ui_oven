@@ -1,32 +1,32 @@
 export const optionForStatus = [
     {
-        value: 'in_progress',
-        name: 'IN PROGRESS'
+        value: "in_progress",
+        name: "In pogress",
     },
     {
-        value: 'pending',
-        name: 'PENDING'
+        value: "pending",
+        name: "Pending",
     },
     {
-        value: 'completed',
-        name: 'COMPLETED'
+        value: "completed",
+        name: "Completed",
     },
-]
+];
 
 export const optionForPriority = [
     {
-        value: 'low',
-        name: 'Low'
+        value: "low",
+        name: "Low",
     },
     {
-        value: 'medium',
-        name: 'Medium'
+        value: "medium",
+        name: "Medium",
     },
     {
-        value: 'high',
-        name: 'High'
+        value: "high",
+        name: "High",
     },
-]
+];
 
 export const StatusColor: { [key: string]: string } = {
     PENDING: "text-yellow-600",
