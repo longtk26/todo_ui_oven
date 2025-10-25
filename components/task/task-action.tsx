@@ -74,7 +74,6 @@ const TaskAction = ({
             status: (status.toUpperCase() as TaskStatus) || "PENDING",
             priority: (priority.toUpperCase() as TaskPriority) || "LOW",
         };
-        console.log(`data`, data);
         createMutate.mutate(data);
         setOpen(false);
         setTaskName("");

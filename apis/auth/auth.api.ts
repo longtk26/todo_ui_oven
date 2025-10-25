@@ -38,15 +38,11 @@ export const registerApi = async (
     }
 };
 
-export const verifyEmail = async (
-    accessToken: string
-): Promise<Result<VerifyEmailResponseData>> => {
+export const verifyEmail = async (): Promise<
+    Result<VerifyEmailResponseData>
+> => {
     try {
-        const response = await apiClient.post("/user/verify", undefined, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        });
+        const response = await apiClient.post("/user/verify", undefined);
 
         return { success: true, data: response.data };
     } catch (error) {
